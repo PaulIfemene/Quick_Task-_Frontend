@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Page Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">My Applications</h1>
+            <p class="text-gray-600">Track and manage your job applications</p>
+        </div>
+
+        <!-- Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Applications -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Applications</p>
+                        <p class="text-3xl font-bold text-indigo-600" id="totalCount">24</p>
+                    </div>
+                    <div class="p-3 bg-indigo-100 rounded-full">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Pending</p>
+                        <p class="text-3xl font-bold text-gray-600" id="pendingCount">12</p>
+                    </div>
+                    <div class="p-3 bg-gray-100 rounded-full">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accepted -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Accepted</p>
+                        <p class="text-3xl font-bold text-green-600" id="acceptedCount">8</p>
+                    </div>
+                    <div class="p-3 bg-green-100 rounded-full">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejected -->
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Rejected</p>
+                        <p class="text-3xl font-bold text-red-600" id="rejectedCount">4</p>
+                    </div>
+                    <div class="p-3 bg-red-100 rounded-full">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Filter Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-8">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Search Bar -->
+                <div class="flex-1">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Search by job title or company..."
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                        >
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Status Filter -->
+                    <select id="statusFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+
+                    <!-- Location Filter -->
+                    <select id="locationFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <option value="">All Locations</option>
+                        <option value="remote">Remote</option>
+                        <option value="onsite">On-site</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+
+                    <!-- Job Type Filter -->
+                    <select id="jobTypeFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <option value="">All Types</option>
+                        <option value="full-time">Full-time</option>
+                        <option value="part-time">Part-time</option>
+                        <option value="contract">Contract</option>
+                        <option value="internship">Internship</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications List -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">Applications</h2>
+            </div>
+            <div id="applicationsList" class="divide-y divide-gray-200">
+                <!-- Applications will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const applications = [
+            {
+                id: 1,
+                jobTitle: "Senior Frontend Developer",
+                company: "TechCorp Inc.",
+                applicationDate: "2024-01-15",
+                jobType: "full-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 2,
+                jobTitle: "UX Designer",
+                company: "Design Studio",
+                applicationDate: "2024-01-12",
+                jobType: "full-time",
+                location: "onsite",
+                status: "accepted"
+            },
+            {
+                id: 3,
+                jobTitle: "React Developer",
+                company: "StartupXYZ",
+                applicationDate: "2024-01-10",
+                jobType: "contract",
+                location: "hybrid",
+                status: "rejected"
+            },
+            {
+                id: 4,
+                jobTitle: "Full Stack Engineer",
+                company: "Innovation Labs",
+                applicationDate: "2024-01-08",
+                jobType: "full-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 5,
+                jobTitle: "Product Manager",
+                company: "Growth Company",
+                applicationDate: "2024-01-05",
+                jobType: "full-time",
+                location: "onsite",
+                status: "accepted"
+            },
+            {
+                id: 6,
+                jobTitle: "Data Scientist",
+                company: "AI Solutions",
+                applicationDate: "2024-01-03",
+                jobType: "part-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 7,
+                jobTitle: "DevOps Engineer",
+                company: "CloudTech",
+                applicationDate: "2024-01-01",
+                jobType: "full-time",
+                location: "hybrid",
+                status: "accepted"
+            },
+            {
+                id: 8,
+                jobTitle: "Marketing Specialist",
+                company: "Brand Agency",
+                applicationDate: "2023-12-28",
+                jobType: "contract",
+                location: "onsite",
+                status: "rejected"
+            },
+            {
+                id: 9,
+                jobTitle: "Software Engineer Intern",
+                company: "Big Tech Corp",
+                applicationDate: "2023-12-25",
+                jobType: "internship",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 10,
+                jobTitle: "Backend Developer",
+                company: "Server Solutions",
+                applicationDate: "2023-12-22",
+                jobType: "full-time",
+                location: "hybrid",
+                status: "accepted"
+            },
+            {
+                id: 11,
+                jobTitle: "Mobile App Developer",
+                company: "App Studio",
+                applicationDate: "2023-12-20",
+                jobType: "part-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 12,
+                jobTitle: "Quality Assurance Tester",
+                company: "Testing Solutions",
+                applicationDate: "2023-12-18",
+                jobType: "full-time",
+                location: "onsite",
+                status: "accepted"
+            },
+            {
+                id: 13,
+                jobTitle: "Business Analyst",
+                company: "Consulting Group",
+                applicationDate: "2023-12-15",
+                jobType: "contract",
+                location: "hybrid",
+                status: "rejected"
+            },
+            {
+                id: 14,
+                jobTitle: "Graphic Designer",
+                company: "Creative Agency",
+                applicationDate: "2023-12-12",
+                jobType: "part-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 15,
+                jobTitle: "Systems Administrator",
+                company: "IT Services",
+                applicationDate: "2023-12-10",
+                jobType: "full-time",
+                location: "onsite",
+                status: "accepted"
+            },
+            {
+                id: 16,
+                jobTitle: "Content Writer",
+                company: "Media Company",
+                applicationDate: "2023-12-08",
+                jobType: "contract",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 17,
+                jobTitle: "Sales Representative",
+                company: "Sales Corp",
+                applicationDate: "2023-12-05",
+                jobType: "full-time",
+                location: "onsite",
+                status: "rejected"
+            },
+            {
+                id: 18,
+                jobTitle: "Network Engineer",
+                company: "Network Solutions",
+                applicationDate: "2023-12-03",
+                jobType: "full-time",
+                location: "hybrid",
+                status: "accepted"
+            },
+            {
+                id: 19,
+                jobTitle: "Machine Learning Engineer",
+                company: "AI Research",
+                applicationDate: "2023-12-01",
+                jobType: "part-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 20,
+                jobTitle: "Project Manager",
+                company: "Management Solutions",
+                applicationDate: "2023-11-28",
+                jobType: "full-time",
+                location: "onsite",
+                status: "accepted"
+            },
+            {
+                id: 21,
+                jobTitle: "Cybersecurity Specialist",
+                company: "Security Corp",
+                applicationDate: "2023-11-25",
+                jobType: "contract",
+                location: "hybrid",
+                status: "pending"
+            },
+            {
+                id: 22,
+                jobTitle: "Digital Marketing Manager",
+                company: "Marketing Pro",
+                applicationDate: "2023-11-22",
+                jobType: "full-time",
+                location: "remote",
+                status: "accepted"
+            },
+            {
+                id: 23,
+                jobTitle: "Technical Writer",
+                company: "Documentation Inc",
+                applicationDate: "2023-11-20",
+                jobType: "part-time",
+                location: "remote",
+                status: "pending"
+            },
+            {
+                id: 24,
+                jobTitle: "Database Administrator",
+                company: "Data Corp",
+                applicationDate: "2023-11-18",
+                jobType: "full-time",
+                location: "onsite",
+                status: "rejected"
+            }
+        ];
+
+        let filteredApplications = [...applications];
+
+        // Function to get status badge
+        function getStatusBadge(status) {
+            const badges = {
+                pending: '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Pending</span>',
+                accepted: '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Accepted</span>',
+                rejected: '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">Rejected</span>'
+            };
+            return badges[status] || '';
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Function to capitalize first letter
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Function to render applications
+        function renderApplications(apps) {
+            const container = document.getElementById('applicationsList');
+            
+            if (apps.length === 0) {
+                container.innerHTML = `
+                    <div class="p-8 text-center text-gray-500">
+                        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p class="text-lg font-medium">No applications found</p>
+                        <p class="text-sm">Try adjusting your search or filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = apps.map(app => `
+                <div class="p-6 hover:bg-gray-50 transition-colors">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                                <h3 class="text-lg font-semibold text-gray-900">${app.jobTitle}</h3>
+                                ${getStatusBadge(app.status)}
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-4 text-sm text-gray-600">
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span>${app.company}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2h3z"></path>
+                                    </svg>
+                                    <span>${capitalize(app.jobType.replace('-', ' '))}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    <span>${capitalize(app.location)}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2h3z"></path>
+                                    </svg>
+                                    <span>Applied ${formatDate(app.applicationDate)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Function to filter applications
+        function filterApplications() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const jobTypeFilter = document.getElementById('jobTypeFilter').value;
+
+            filteredApplications = applications.filter(app => {
+                const matchesSearch = app.jobTitle.toLowerCase().includes(searchTerm) || 
+                                    app.company.toLowerCase().includes(searchTerm);
+                const matchesStatus = !statusFilter || app.status === statusFilter;
+                const matchesLocation = !locationFilter || app.location === locationFilter;
+                const matchesJobType = !jobTypeFilter || app.jobType === jobTypeFilter;
+
+                return matchesSearch && matchesStatus && matchesLocation && matchesJobType;
+            });
+
+            renderApplications(filteredApplications);
+            updateCounts();
+        }
+
+        // Function to update counts
+        function updateCounts() {
+            const total = filteredApplications.length;
+            const pending = filteredApplications.filter(app => app.status === 'pending').length;
+            const accepted = filteredApplications.filter(app => app.status === 'accepted').length;
+            const rejected = filteredApplications.filter(app => app.status === 'rejected').length;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('acceptedCount').textContent = accepted;
+            document.getElementById('rejectedCount').textContent = rejected;
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterApplications);
+        document.getElementById('statusFilter').addEventListener('change', filterApplications);
+        document.getElementById('locationFilter').addEventListener('change', filterApplications);
+        document.getElementById('jobTypeFilter').addEventListener('change', filterApplications);
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', function() {
+            renderApplications(applications);
+            updateCounts();
+        });
+    </script>
+</body>
+</html>
